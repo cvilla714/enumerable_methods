@@ -2,7 +2,8 @@
 
 # module Enumerable
 module Enumerable
-  def my_each(arr)
+  def my_each
+    arr = Array(this)
     if block_given?
       n = 0
       while n < arr.length

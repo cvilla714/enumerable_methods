@@ -10,8 +10,8 @@ tot_inject = [1, 3, 5, 7, 9]
 my_array = [5, 9, 3, 2, 4, 1]
 
 # calling each module
-my_each(my_array) { |index| p index * 2 }
-
+# my_each(my_array) { |index| p index * 2 }
+my_array.my_each { |index| p index * 2 }
 my_each_with_index(my_array) do |item, index|
   p item if index == 2
 end
