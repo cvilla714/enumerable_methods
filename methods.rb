@@ -8,6 +8,57 @@ cities = %w[montreal manhattan jersey atlanta hollywood]
 totals = [-10, 20, 30, 40, 50, 8, 100]
 tot_inject = [1, 3, 5, 7, 9]
 injectotal = 0
+my_array = [5, 9, 3, 2, 4, 1]
+
+def my_each(arr)
+  n = 0
+  while n < arr.length
+    yield(arr[n])
+    n += 1
+  end
+end
+
+my_each(my_array) { |index| p index * 2 }
+
+def my_each_with_index(arr)
+  n = 0
+  while n < arr.length
+    yield(arr[n], n)
+    n += 1
+  end
+end
+
+my_each_with_index(array) do |item, index|
+  puts item if index == 2
+end
+
+def my_select(arr)
+  array_2 = []
+  my_each(arr) do |item|
+    array_2.push(item) if yield(item)
+  end
+  array_2
+end
+
+my_select(my_array) { |item| item > 0 }
+
+def my_all(arr)
+  my_each(arr) do |item|
+    return false unless yield(item)
+  end
+  true
+end
+
+my_all(my_array) { |item| item > 0 }
+
+def my_any(arr)
+  my_each(arr) do |item|
+    return true if yield(item)
+  end
+  false
+end
+
+my_any(my_array) { |item| item < 0 }
 
 def my_none(arr)
   m = 0
