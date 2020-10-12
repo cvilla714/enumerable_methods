@@ -8,12 +8,83 @@ cities = %w[montreal manhattan jersey atlanta hollywood]
 totals = [-10, 20, 30, 40, 50, 8, 100]
 tot_inject = [1, 3, 5, 7, 9]
 injectotal = 0
+my_array = [5, 9, 3, 2, 4, 1]
+
+def my_each(arr)
+  if block_given?
+    n = 0
+    while n < arr.length
+      yield(arr[n])
+      n += 1
+    end
+  else
+    p 'Block missing'
+  end
+end
+
+my_each(my_array) { |index| p index * 2 }
+
+def my_each_with_index(arr)
+  if block_given?
+    n = 0
+    while n < arr.length
+      yield(arr[n], n)
+      n += 1
+    end
+  else
+    p 'Block missing'
+  end
+end
+
+my_each_with_index(my_array) do |item, index|
+  p item if index == 2
+end
+
+def my_select(arr)
+  if block_given?
+    array2 = []
+    my_each(arr) do |item|
+      array2.push(item) if yield(item)
+    end
+    array2
+  else
+    p 'Block missing'
+  end
+end
+
+p my_select(my_array, &:positive?)
+
+def my_all(arr)
+  if block_given?
+    my_each(arr) do |item|
+      return false unless yield(item)
+    end
+    true
+  else
+    p 'Block missing'
+  end
+end
+
+p my_all(my_array, &:positive?)
+
+def my_any(arr)
+  if block_given?
+    my_each(arr) do |item|
+      return true if yield(item)
+    end
+    false
+  else
+    p 'Block missing'
+  end
+end
+
+p my_any(my_array, &:negative?)
 
 def my_none(arr)
   m = 0
   while m < arr.length
     if yield(arr[m])
-      puts "this is the name the city #{arr[m]} and this is the length of the name of each city #{arr[m].length}"
+      puts "The city name is #{arr[m]}, The length's name is #{arr[m].length}"
     end
     m += 1
   end
@@ -30,7 +101,7 @@ def my_count(numbers)
   yield
 end
 
-my_count(totals) { puts "the number of items inside the array are #{totals.length}" }
+my_count(totals) { puts "the number of items is #{totals.length}" }
 
 def my_map(num)
   t = 0
