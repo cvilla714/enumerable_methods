@@ -57,7 +57,7 @@ my_inject(tot_inject) { [1, 3, 5, 7, 9] }
 tot_inject.each { |n| injectotal += n }
 puts injectotal
 
-def mytiply_els(numarr)
+def multiply_els(numarr)
   e = 0
   maint = 1
   while e < numarr.length
@@ -68,4 +68,23 @@ def mytiply_els(numarr)
   puts maint
 end
 
-mytiply_els(tot_inject) { [1, 3, 5, 7, 9] }
+multiply_els(tot_inject) { [1, 3, 5, 7, 9] }
+
+over_forty = proc { |num| num >= 40 }
+# p over_forty.call(totals)
+# p totals.call(over_forty)
+# p totals.over_forty
+group_over_forty = totals.select(&over_forty)
+# puts group_over_fourty
+
+def my_map_proc(numofarr)
+  m = 0
+  while m < numofarr.length
+    # p numofarr[m]
+
+    m += 1
+  end
+  yield()
+end
+
+my_map_proc(totals) { p group_over_forty }
