@@ -18,7 +18,7 @@ def my_each(arr)
   end
 end
 
-my_each(my_array) { |index| p index * 2 }
+my_each(my_array) { |index| print index * 2 }
 
 def my_each_with_index(arr)
   n = 0
@@ -28,19 +28,19 @@ def my_each_with_index(arr)
   end
 end
 
-my_each_with_index(array) do |item, index|
-  puts item if index == 2
+my_each_with_index(my_array) do |item, index|
+  p item if index == 2
 end
 
 def my_select(arr)
-  array_2 = []
+  array2 = []
   my_each(arr) do |item|
-    array_2.push(item) if yield(item)
+    array2.push(item) if yield(item)
   end
-  array_2
+  array2
 end
 
-my_select(my_array) { |item| item > 0 }
+p my_select(my_array, &:positive?)
 
 def my_all(arr)
   my_each(arr) do |item|
@@ -49,7 +49,7 @@ def my_all(arr)
   true
 end
 
-my_all(my_array) { |item| item > 0 }
+p my_all(my_array, &:positive?)
 
 def my_any(arr)
   my_each(arr) do |item|
@@ -58,13 +58,13 @@ def my_any(arr)
   false
 end
 
-my_any(my_array) { |item| item < 0 }
+p my_any(my_array, &:negative?)
 
 def my_none(arr)
   m = 0
   while m < arr.length
     if yield(arr[m])
-      puts "this is the name the city #{arr[m]} and this is the length of the name of each city #{arr[m].length}"
+      puts "The city name is #{arr[m]}, The length's name is #{arr[m].length}"
     end
     m += 1
   end
@@ -81,7 +81,7 @@ def my_count(numbers)
   yield
 end
 
-my_count(totals) { puts "the number of items inside the array are #{totals.length}" }
+my_count(totals) { puts "the number of items is #{totals.length}" }
 
 def my_map(num)
   t = 0
