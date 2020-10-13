@@ -7,7 +7,7 @@ AllCops:
 
 Layout/LineLength:
   Max: 120
-  Metrics/ModuleLength:
+Metrics/ModuleLength:
   Enabled: false
 Metrics/CyclomaticComplexity:
   Enabled: false
