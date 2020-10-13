@@ -23,8 +23,7 @@ p my_array.my_all(&:positive?)
 p my_array.my_any(&:negative?)
 
 cities.my_none? { |index| index.length > 10 }
-tot_inject.none? { |index| index == Float}
-
+tot_inject.none? { |index| index == Float }
 
 totals.my_count { puts "the number of items is #{totals.length}" }
 

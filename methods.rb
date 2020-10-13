@@ -61,15 +61,30 @@ module Enumerable # rubocop:disable Metrics/ModuleLength
   end
 
   def my_none?
-    return to_enum(:my_none) unless block_given?
-    m = 0
-    while m < self.length
-      if yield(self[m])
-        return false
-     end
-     m += 1
+    if !block_given?
+      my_each  do |item| 
+        if item == nil && item == [] 
+          return false
+        elsif item == nil
+          return true 
+        end
+        return false unless item == false 
+      end
+      true
+      elsif block_given?
+        # return to_enum(:my_none) unless block_given?
+        arr = to_a if self.class == Range
+        arr = self if self.class == Array
+        m = 0
+          while m < arr.length
+            if yield(arr[m])
+              return false
+            end
+            m += 1
+          end
+        true
+      end
     end
-    true
   end
 
   def my_count
