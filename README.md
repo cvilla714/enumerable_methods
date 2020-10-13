@@ -1,6 +1,6 @@
 # Advanced Building Blocks - Enumerables
 
-This project was based on implementing our own version or Ruby's enumerable methods/
+This project was based on implementing our own version of Ruby's enumerable methods/
 We created two files one that contained the methods and another one that contains
 the results.
 

@@ -60,22 +60,22 @@ module Enumerable # rubocop:disable Metrics/ModuleLength
     end
   end
 
-  def my_none
-    if block_given?
-      m = 0
-      while m < length
-        p "The city name is #{self[m]}, The length's name is #{self[m].length}" if yield(self[m])
-        m += 1
-      end
-    else
-      'Block missing'
+  def my_none?
+    return to_enum(:my_none) unless block_given?
+    m = 0
+    while m < self.length
+      if yield(self[m])
+        return false
+     end
+     m += 1
     end
+    true
   end
 
   def my_count
     if block_given?
       x = 0
-      while x < length
+      while x < self.length
         puts "this are the items insidet the array #{self[x]}"
         x += 1
       end
@@ -106,7 +106,7 @@ module Enumerable # rubocop:disable Metrics/ModuleLength
         maint += yield[e]
         e += 1
       end
-      maint
+      puts maint
     else
       'Block missing'
     end
@@ -121,7 +121,7 @@ module Enumerable # rubocop:disable Metrics/ModuleLength
         maint *= yield[e]
         e += 1
       end
-      maint
+      puts maint
     else
       'Block missing'
     end
