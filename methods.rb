@@ -3,27 +3,27 @@
 # module Enumerable
 module Enumerable # rubocop:disable Metrics/ModuleLength
   def my_each
-    if block_given?
+    return to_enum(:my_each) unless block_given?
+      arr = to_a if self.class == Range
+      arr = self if self.class == Array
       n = 0
-      while n < length
-        yield(self[n])
+      while n < arr.length
+        yield(arr[n])
         n += 1
       end
-    else
-      'Block missing'
-    end
+      self
   end
 
   def my_each_with_index
-    if block_given?
+    return to_enum(:my_each) unless block_given?
+      arr = to_a if self.class == Range
+      arr = self if self.class == Array
       n = 0
-      while n < length
-        yield(self[n], n)
+      while n < arr.length
+        yield(arr[n], n)
         n += 1
       end
-    else
-      'Block missing'
-    end
+      self
   end
 
   def my_select
