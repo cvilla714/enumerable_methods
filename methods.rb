@@ -125,29 +125,29 @@ module Enumerable
     end
   end
 
-  def my_none?(*input) # if all elements are false return true
-    return true if !block_given? && self.empty?
+  def my_none?(input = nil) # if all elements are false return true
 
-    if !block_given? 
+    return true if !block_given? && self.empty? #This contidion is only when we have an empty input, jus like this "p [].my_none?", so the logic of the roiginal method says, if you have an empty input just return true
+
+    if !block_given? &&  input == Float #This is only going to happen when we don't have a block and when we have an argumnet with the class Float, just like in this "p %w{ant bear cat}.my_none?(/d/)"
         my_each  do |item|
-            return false if item.class == input[0]
+            return false if item.class == input
         end
-    elsif !block_given? 
+    elsif !block_given? &&  input.class == Regexp  #This is only going to happen when we don't have a block and when we have an argumnet with the class Float , just like in this "p [1, 3.14, 42].my_none?(Float)"
         my_each  do |item|
             char = item.split('')
-            char.my_each do |n| 
-                return false if n.match?(input[0]) 
+            char.my_each do |n|
+                p "X" if n.match?(input) 
+                return false if n.match?(input) 
             end
         end
         true
-    elsif !block_given?
+    elsif !block_given? && input.nil? #This contidition is only going to happen when we don't have a block and when we don't have an argument, jus like in this "p [nil].my_none?"
         my_each  do |item|
             return false if item == true # if one atleast item is true return false
         end
         true
-    elsif block_given?
-#        arr = to_a if self.class == Range
-#        arr = self if self.class == Array
+    elsif block_given? #This condition is only gping to happen when we have a block
         my_each  do |item|
             return false if item == true
             return false if yield(item) 
@@ -174,12 +174,12 @@ end
 #p %w[dog car].my_none?(5) 
 #p [5, 'dog', 'car'].my_none?(5) 
 
-#p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
-#p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
+p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
+p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
 p %w{ant bear cat}.my_none?(/d/)                        #=> true
 p [1, 3.14, 42].my_none?(Float)                         #=> false
-#p [].my_none?                                           #=> true
-#p [nil].my_none?                                        #=> true
-#p [nil, false].my_none?                                 #=> true
-#p [nil, false, true].my_none?                           #=> false
+p [].my_none?                                           #=> true
+p [nil].my_none?                                        #=> true
+p [nil, false].my_none?                                 #=> true
+p [nil, false, true].my_none?                           #=> false
 
