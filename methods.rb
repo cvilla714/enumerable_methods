@@ -62,11 +62,7 @@ module Enumerable
     end
   end
 
-  def my_none?(*)
-    # arr = to_a if self.class == Range
-    # arr = self if self.class == Array
-    # arg = arr
-
+  def my_none?
     if !block_given?
       my_each do |item|
         if item.nil? && item == []
@@ -77,23 +73,25 @@ module Enumerable
           return true
         end
         return false unless item == false
-        end
-        true
+      end
+      true
       # end
+    # end
     elsif block_given?
       # return to_enum(:my_none) unless block_given?
       arr = to_a if self.class == Range
       arr = self if self.class == Array
       m = 0
       while m < arr.length
-        return false if yield(arr[m])
-
+        if yield(arr[m])
+        return false 
+        end
         m += 1
       end
       true
     end
   end
-end
+
 
 def my_count
   if block_given?
@@ -160,13 +158,63 @@ def my_map_proc
   end
 end
 
+
+  def my_nonetwo?
+    # arr = to_a if self.class == Range
+    # arr = self if self.class == Array
+    # arg = arr
+
+    # if !block_given?
+      # my_each do |item|
+        # if item.nil? && item == []
+          # return false
+        # elsif item == []
+          # return true
+        # elsif item.nil?
+          # return true
+        # end
+        # return false unless item == false
+      # end
+
+      if !block_given?
+        my_each do |element|
+          p element * 2 
+        # return false
+        end
+      # true
+      end
+    # end
+    # elsif block_given?
+      # return to_enum(:my_none) unless block_given?
+      # arr = to_a if self.class == Range
+      # arr = self if self.class == Array
+      # m = 0
+      # while m < arr.length
+        # return false if yield(arr[m])
+        # m += 1
+      # end
+      # true
+    # end
+  end
+end
+
 # my_none
-# p [1, 2, 3, 4, 5].my_none?(&proc { |n| (n % 7).zero? })
-# p [1, 2, 3, 4, 5].my_none?(&proc { |n| n.even? })
-# p (1..3).my_none?(&proc { |num| num.even? })
-# p [1, 2, 3, 4, 5].tap { |t| t.my_none? { |n| n % 3 } }
-# p [false, nil, false].my_none?
-p [false, nil, []].my_none?
+# p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
+# p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
+# p %w{ant bear cat}.my_none?(/d/)                       #=> true
+# p [1, 3.14, 42].my_none?(Float)                        #=> false
+# p [].my_none?                                           #=> true
+# p [nil].my_none?                                        #=> true
+# p [nil, false].my_none?                                 #=> true
+# p [nil, false, true].my_none?                           #=> false having problems here
+# p [1, 2, 3, 4, 5].my_none?(&proc { |n| (n % 7).zero? }) #=> true
+# p [1, 2, 3, 4, 5].my_none?(&proc { |n| n.even? }) #=> false
+# p (1..3).my_none?(&proc { |num| num.even? })            #=> false
+# p [1, 2, 3, 4, 5].tap { |t| t.my_none? { |n| n % 3 } }  # returns the same array
+# p [1, 2, 3, 4, 5].tap { |t| t.none? { |n| n % 3 } } # returns the same array
+# p [false, nil, false].my_none?                          #=> true
+# p [false, nil, []].my_none?                             #=> false problems here
+# p [1,2,3,4,5,6,7].my_nonetwo?
 # p [true, []].my_none?(String)
 # p [true, []].my_none?(Numeric)
 # p ['', []].my_none?(String)
