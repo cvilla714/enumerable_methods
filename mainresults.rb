@@ -24,6 +24,19 @@ p my_array.my_any(&:negative?)
 
 cities.my_none? { |index| index.length > 10 }
 tot_inject.none? { |index| index == Float }
+# p [1, 2, 3, 4, 5].my_none?(&proc { |n| (n % 7).zero? })
+# p [1, 2, 3, 4, 5].my_none?(&proc { |n| n.even? })
+# p (1..3).my_none?(&proc { |num| num.even? })
+# p (1..3).my_none?(&proc { |num| num.even? })
+# p [false, nil, false].my_none?
+# p [false, nil, []].my_none?
+# p [true, []].my_none?(String)
+# p [true, []].none?(Numeric)
+# p ['', []].none?(String)
+# p %w[dog cat].my_none?(/x/)
+# p %w[dog cat].my_none?(/d/)
+# p %w[dog car].my_none?(5)
+# p [5, 'dog', 'car'].my_none?(5)
 
 totals.my_count { puts "the number of items is #{totals.length}" }
 
