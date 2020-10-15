@@ -80,10 +80,45 @@ module Enumerable
       true
     end
   end
+
+  def my_any?(arg = nil)
+    if block_given?
+      my_each { |item| return true if yield(item) }
+      false
+
+    elsif !block_given? && !arg.nil?
+      if arg.class == Regexp
+        my_each  do |item|
+          char = item.split('')
+          char.my_each do |n|
+            return true if n.match?(arg)
+          end
+        end
+        false
+      elsif arg == Integer
+        my_each { |item| return true if item.class == arg }
+        false
+      end
+    elsif !block_given? && arg.nil?
+      my_each { |item| return true if item == true }
+      false
+    elsif !block_given? && empty?
+      true
+    end
+  end
 end
 # rubocop:enable Layout/LineLength,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
 
-# Scenarios for "my_all?" method
+# Scenarios for "my_any?" method return true if ANY of the elements is true
+
+# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+# p %w[ant bear cat].my_any?(/d/)                        #=> false
+# p [nil, true, 99].my_any?(Integer)                     #=> true
+# p [nil, true, 99].my_any?                              #=> true
+# p [].my_any?                                           #=> false
+
+# Scenarios for "my_all?" method return true if ALL of the elements is true
 
 # p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
 # p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
@@ -92,7 +127,7 @@ end
 # p [nil, true, 99].my_all?                              #=> false
 # p [].my_all?                                           #=> true
 
-# Scenarios for "my_none" method
+# Scenarios for "my_none?" method
 
 # p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
 # p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
