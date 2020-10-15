@@ -60,15 +60,13 @@ module Enumerable
   end
 
   def my_count(*args)
-    if args[0] == nil      
+    if !block_given? &&  args[0] == nil 
     counter = 0
     while counter < self.length
-      puts self[counter]
       counter +=1
     end
      counter
-  elsif args[0] != nil
-      puts args
+  elsif !block_given? &&  args[0] != nil
     count = 0
     section = 0
     while count < self.length
@@ -78,8 +76,18 @@ module Enumerable
       count += 1
     end
       section
+   elsif block_given? && args[0] == nil
+      num = 0
+      ematch= 0
+      while num < self.length
+        if yield(self[num])
+          ematch += 1
+      end
+      num+=1
     end
+    ematch
   end
+ end
 
 
   def my_all?(arg = nil)
@@ -162,10 +170,10 @@ end
 # p [nil, false, true].my_none?                           #=> false
 
 # conditions for count
-p ary = [1, 1, 1, 2, 4, 2]
+p ary = [3, 3, 3, 2, 4, 2]
 # p ary.my_count #=> 4
 # p names = %w(luigui mario boozer luffy zorro jinbei)
 # p names.my_count
 p ary.my_count
-p ary.my_count(1)            #=> 2
-# p ary.my_count{ |x| x%2==0 } #=> 3
+p ary.my_count(3)            #=> 2
+p ary.my_count{ |x| x%2==0 } #=> 3
