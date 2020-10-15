@@ -89,6 +89,20 @@ module Enumerable
   end
  end
 
+def my_map 
+    return to_enum(:my_map) unless block_given?
+     arr = to_a if self.class == Range
+     arr = self if self.class == Array
+     counter = 0 
+     tot = []
+       while counter <arr.length
+        runn =  yield(arr[counter])
+           tot.push(runn)
+          counter += 1
+       end
+      tot
+  end
+
 
   def my_all?(arg = nil)
     if block_given?
@@ -138,6 +152,9 @@ module Enumerable
     end
   end
 end
+
+
+
 # rubocop:enable Layout/LineLength,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
 
 # Scenarios for "my_any?" method return true if ANY of the elements is true
@@ -170,10 +187,14 @@ end
 # p [nil, false, true].my_none?                           #=> false
 
 # conditions for count
-p ary = [3, 3, 3, 2, 4, 2]
+# p ary = [3, 3, 3, 2, 4, 2]
 # p ary.my_count #=> 4
 # p names = %w(luigui mario boozer luffy zorro jinbei)
 # p names.my_count
-p ary.my_count
-p ary.my_count(3)            #=> 2
-p ary.my_count{ |x| x%2==0 } #=> 3
+# p ary.my_count
+# p ary.my_count(3)            #=> 2
+# p ary.my_count{ |x| x%2==0 } #=> 3
+
+# condition for my map
+p (1..4).my_map{ |i| i*i }      #=> [1, 4, 9, 16]
+p (1..4).my_map { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
