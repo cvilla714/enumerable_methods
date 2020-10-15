@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Layout/LineLength,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+
 # module Enumerable
 module Enumerable
   def my_each
@@ -28,65 +30,27 @@ module Enumerable
     self
   end
 
-  def my_select
-    if block_given?
-      array2 = []
-      my_each do |item|
-        array2.push(item) if yield(item)
-      end
-      array2
-    else
-      'Block missing'
-    end
-  end
+  def my_none?(input = nil)
+    return true if !block_given? && empty?
 
-  def my_all
-    if block_given?
-      my_each do |item|
-        return false unless yield(item)
-      end
-      true
-    else
-      'Block missing'
-    end
-  end
-
-  def my_any
-    if block_given?
-      my_each  do |item|
-        return true if yield(item)
-      end
-      false
-    else
-      'Block missing'
-    end
-  end
-
-
-  def my_none?(input = nil) # if all elements are false return true
-    if !block_given? && empty?
-      return true
-    end # This contidion is only when we have an empty input, jus like this "p [].my_none?", so the logic of the roiginal method says, if you have an empty input just return true
-
-    if !block_given? && input == Float # This is only going to happen when we don't have a block and when we have an argumnet with the class Float, just like in this "p %w{ant bear cat}.my_none?(/d/)"
+    if !block_given? && input == Float
       my_each do |item|
         return false if item.class == input
       end
-    elsif !block_given? && input.class == Regexp # This is only going to happen when we don't have a block and when we have an argumnet with the class Float , just like in this "p [1, 3.14, 42].my_none?(Float)"
+    elsif !block_given? && input.class == Regexp
       my_each  do |item|
         char = item.split('')
         char.my_each do |n|
-          p 'X' if n.match?(input)
           return false if n.match?(input)
         end
       end
       true
-    elsif !block_given? && input.nil? # This contidition is only going to happen when we don't have a block and when we don't have an argument, jus like in this "p [nil].my_none?"
+    elsif !block_given? && input.nil?
       my_each do |item|
-        return false if item == true # if one atleast item is true return false
+        return false if item == true
       end
       true
-    elsif block_given? # This condition is only gping to happen when we have a block
+    elsif block_given?
       my_each do |item|
         return false if item == true
         return false if yield(item)
@@ -96,105 +60,97 @@ module Enumerable
   end
 
   def my_count(*args)
-      if args[0] == nil      
-      counter = 0
-      while counter < self.length
-        puts self[counter]
-        counter +=1
+    if args[0] == nil      
+    counter = 0
+    while counter < self.length
+      puts self[counter]
+      counter +=1
+    end
+     counter
+  elsif args[0] != nil
+      puts args
+    count = 0
+    section = 0
+    while count < self.length
+      if self[count] == args[0]
+        section += 1
+        end
+      count += 1
+    end
+      section
+    end
+  end
+
+
+  def my_all?(arg = nil)
+    if block_given?
+      my_each { |item| return false unless yield(item) }
+      true
+
+    elsif !block_given? && !arg.nil?
+      if arg.class == Regexp
+        my_each { |item| return false unless item.match?(arg) }
+        true
+
+      elsif arg == Numeric
+        my_each { |item| return false if item.class.superclass != arg }
+        true
       end
-       counter
-    elsif args[0] != nil
-        puts args
-      count = 0
-      section = 0
-      while count < self.length
-        if self[count] == args[0]
-          section += 1
+    elsif !block_given? && arg.nil?
+      my_each { |item| return false if item.nil? }
+      true
+    elsif !block_given? && empty?
+      true
+    end
+  end
+
+  def my_any?(arg = nil)
+    if block_given?
+      my_each { |item| return true if yield(item) }
+      false
+
+    elsif !block_given? && !arg.nil?
+      if arg.class == Regexp
+        my_each  do |item|
+          char = item.split('')
+          char.my_each do |n|
+            return true if n.match?(arg)
           end
-        count += 1
+        end
+        false
+      elsif arg == Integer
+        my_each { |item| return true if item.class == arg }
+        false
       end
-        section
-      end
-    end
-
-
-  def my_map
-    if block_given?
-      t = 0
-      while t < length
-        yield(self[t])
-        t += 1
-      end
-    else
-      'Block missing'
-    end
-  end
-
-  def my_inject
-    if block_given?
-      e = 0
-      maint = 0
-      while e < length
-        puts self[e]
-        maint += yield[e]
-        e += 1
-      end
-      puts maint
-    else
-      'Block missing'
-    end
-  end
-
-  def multiply_els
-    if block_given?
-      e = 0
-      maint = 1
-      while e < length
-        puts self[e]
-        maint *= yield[e]
-        e += 1
-      end
-      puts maint
-    else
-      'Block missing'
-    end
-  end
-
-  def my_map_proc
-    if block_given?
-      m = 0
-      m += 1 while m < length
-      yield
-    else
-      'Block missing'
+    elsif !block_given? && arg.nil?
+      my_each { |item| return true if item == true }
+      false
+    elsif !block_given? && empty?
+      true
     end
   end
 end
+# rubocop:enable Layout/LineLength,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
 
-# my_none
-# p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
-# p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-# p %w{ant bear cat}.my_none?(/d/)                       #=> true
-# p [1, 3.14, 42].my_none?(Float)                        #=> false
-# p [].my_none?                                           #=> true
-# p [nil].my_none?                                        #=> true
-# p [nil, false].my_none?                                 #=> true
-# p [nil, false, true].my_none?                           #=> false having problems here
-# p [1, 2, 3, 4, 5].my_none?(&proc { |n| (n % 7).zero? }) #=> true
-# p [1, 2, 3, 4, 5].my_none?(&proc { |n| n.even? }) #=> false
-# p (1..3).my_none?(&proc { |num| num.even? })            #=> false
-# p [1, 2, 3, 4, 5].tap { |t| t.my_none? { |n| n % 3 } }  # returns the same array
-# p [1, 2, 3, 4, 5].tap { |t| t.none? { |n| n % 3 } } # returns the same array
-# p [false, nil, false].my_none?                          #=> true
-# p [false, nil, []].my_none?                             #=> false problems here
-# p [1,2,3,4,5,6,7].my_nonetwo?
-# p [true, []].my_none?(String)
-# p [true, []].my_none?(Numeric)
-# p ['', []].my_none?(String)
-# p %w[dog cat].my_none?(/x/)
-# p %w[dog cat].my_none?(/d/)
-# p %w[dog car].my_none?(5)
-# p [5, 'dog', 'car'].my_none?(5)
+# Scenarios for "my_any?" method return true if ANY of the elements is true
+
+# p %w[ant bear cat].my_any? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true
+# p %w[ant bear cat].my_any?(/d/)                        #=> false
+# p [nil, true, 99].my_any?(Integer)                     #=> true
+# p [nil, true, 99].my_any?                              #=> true
+# p [].my_any?                                           #=> false
+
+# Scenarios for "my_all?" method return true if ALL of the elements is true
+
+# p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+# p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+# p %w[ant bear cat].my_all?(/t/)                        #=> false
+# p [1, 3i, 3.14].my_all?(Numeric)                       #=> true
+# p [nil, true, 99].my_all?                              #=> false
+# p [].my_all?                                           #=> true
+
+# Scenarios for "my_none?" method
 
 # p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
 # p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
