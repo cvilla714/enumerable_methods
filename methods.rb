@@ -104,6 +104,50 @@ def my_map
   end
 
 
+  def my_inject(args=nil)
+    arr = to_a if self.class == Range
+    arr = self if self.class == Array
+    if !block_given? && !args.nil? # no blocks and args
+      i = 1
+      x = 0
+      acum = arr[x]
+      while i < arr.length
+        acum = acum.send(args, arr[i])
+        i += 1
+      end
+      acum
+    #elsif block_given? && args.empty? # block and no args
+    #  "block / no args"
+#
+    #elsif block_given? && !args.empty? # blocks and args
+    #  "block / args"
+    # end
+  elsif block_given? && args.nil?
+      counter = 0 
+      longest = nil
+      # word = 0
+      while counter < arr.length
+        # puts arr[counter]
+        if !arr[counter+1].nil?
+        # print "yooo"
+        longest = yield(arr[counter],arr[counter+1])
+        # runn = yield(arr[counter],arr[counter+1])
+        # yield(arr[counter],arr[counter+1])
+          # p runn
+          # word += 1
+        #  longest.push(runn)
+        end
+        counter+=1
+        # longest.push(runn)
+      end
+      # counter        
+      puts "hello"
+      # puts longest.to_s
+      return longest
+    end
+  end
+# end       
+
   def my_all?(arg = nil)
     if block_given?
       my_each { |item| return false unless yield(item) }
@@ -196,5 +240,26 @@ end
 # p ary.my_count{ |x| x%2==0 } #=> 3
 
 # condition for my map
-p (1..4).my_map{ |i| i*i }      #=> [1, 4, 9, 16]
-p (1..4).my_map { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
+# p (1..4).my_map{ |i| i*i }      #=> [1, 4, 9, 16]
+# p (1..4).my_map { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
+
+
+# conditions for my_inject
+# Sum some numbers
+p (5..10).my_inject(:*)                             #=> 45
+# Same using a block and inject
+# (5..10).inject { |sum, n| sum + n }            #=> 45
+# Multiply some numbers
+# (5..10).reduce(1, :*)                          #=> 151200
+# Same using a block
+# (5..10).inject(1) { |product, n| product * n } #=> 151200
+# find the longest word
+longest = %w{ cat sheep bear biggest looooping}.my_inject do |memo, word|
+   memo.length > word.length ? memo : word
+end
+p longest                                        #=> "sheep"
+
+# longest = %w{ cat sheep bear biggest }.inject do |memo, word|
+  # memo.length > word.length ? memo : word
+# end
+# p longest                                        #=> "sheep"
