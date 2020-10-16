@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Layout/LineLength,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+# rubocop:disable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
 
 # module Enumerable
 module Enumerable
@@ -60,51 +60,45 @@ module Enumerable
   end
 
   def my_count(*args)
-    if !block_given? &&  args[0] == nil 
-    counter = 0
-    while counter < self.length
-      counter +=1
-    end
-     counter
-  elsif !block_given? &&  args[0] != nil
-    count = 0
-    section = 0
-    while count < self.length
-      if self[count] == args[0]
-        section += 1
-        end
-      count += 1
-    end
-      section
-   elsif block_given? && args[0] == nil
-      num = 0
-      ematch= 0
-      while num < self.length
-        if yield(self[num])
-          ematch += 1
+    if !block_given? && args[0].nil?
+      counter = 0
+      counter += 1 while counter < length
+      counter
+    elsif !block_given? && !args[0].nil?
+      count = 0
+      section = 0
+      while count < length
+        section += 1 if self[count] == args[0]
+        count += 1
       end
-      num+=1
+      section
+    elsif block_given? && args[0].nil?
+      num = 0
+      ematch = 0
+      while num < length
+        ematch += 1 if yield(self[num])
+        num += 1
+      end
+      ematch
     end
-    ematch
   end
- end
 
-def my_map 
+  def my_map
     return to_enum(:my_map) unless block_given?
-     arr = to_a if self.class == Range
-     arr = self if self.class == Array
-     counter = 0 
-     tot = []
-       while counter <arr.length
-        runn =  yield(arr[counter])
-           tot.push(runn)
-          counter += 1
-       end
-      tot
+
+    arr = to_a if self.class == Range
+    arr = self if self.class == Array
+    counter = 0
+    tot = []
+    while counter < arr.length
+      runn = yield(arr[counter])
+      tot.push(runn)
+      counter += 1
+    end
+    tot
   end
 
-
-  def my_inject(args=nil,arg=nil)
+  def my_inject(args = nil, arg = nil)
     arr = to_a if self.class == Range
     arr = self if self.class == Array
     if !block_given? && !args.nil? && arg.nil? # no blocks and args
@@ -116,63 +110,49 @@ def my_map
         i += 1
       end
       acum
-        #elsif block_given? && args.empty? # block and no args
-        #  "block / no args"
-          #
-        #elsif block_given? && !args.empty? # blocks and args
-        #  "block / args"
-        # end
-      elsif block_given? && args.nil? && args.nil?
+    elsif block_given? && args.nil? && args.nil?
       if arr[0].class == String
-          counter = 0 
-          longest = nil
-          result = 0
-            while counter < arr.length
-              if !arr[counter+1].nil?
-              longest = yield(arr[counter],arr[counter+1])    
-            end
-            counter+=1
-            end
-          return longest
-        elsif arr[0].class == Integer
-          sum = 1
-          num = 0
-          total = arr[num]
-          while sum < arr.length
-            # puts arr[sum]
-            total = yield(total,arr[sum])
-            sum+=1
-            num+=1
+        counter = 0
+        longest = nil
+        while counter < arr.length
+          unless arr[counter + 1].nil?
+            longest = yield(arr[counter], arr[counter + 1])
           end
-           # return total
-          return total
-           end
-          elsif block_given? && !args.nil? && arg.nil? # blocks and args
-            sum = 1
-            num = 0
-            total = arr[num]
-            while sum < arr.length
-              total = yield(total,arr[sum])
-              sum+=1
-              num+=1
-            end
-           total = yield(total, args)
-          # end
-          elsif !block_given? && !args.nil? && !arg.nil? # no blocks and args
-              i = 1
-              x = 0
-              acum = arr[x]
-              while i < arr.length
-                acum = acum.send(arg, arr[i])
-                i += 1
-              end
-              acum = acum.send(arg,args)
-       end
-     end
+          counter += 1
+        end
+        longest
+      elsif arr[0].class == Integer
+        sum = 1
+        num = 0
+        total = arr[num]
+        while sum < arr.length
+          total = yield(total, arr[sum])
+          sum += 1
+          num += 1
+        end
+        total
+      end
+    elsif block_given? && !args.nil? && arg.nil? # blocks and args
+      sum = 1
+      num = 0
+      totals = arr[num]
+      while sum < arr.length
+        totals = yield(totals, arr[sum])
+        sum += 1
+        num += 1
+      end
+      yield(totals, args)
+    elsif !block_given? && !args.nil? && !arg.nil? # no blocks and args
+      i = 1
+      x = 0
+      acum = arr[x]
+      while i < arr.length
+        acum = acum.send(arg, arr[i])
+        i += 1
+      end
+      acum.send(arg, args)
+    end
   end
-
-
-
 
   def my_all?(arg = nil)
     if block_given?
@@ -221,11 +201,9 @@ def my_map
       true
     end
   end
+end
 
-
-
-
-# rubocop:enable Layout/LineLength,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+# rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
 
 # Scenarios for "my_any?" method return true if ANY of the elements is true
 
@@ -271,17 +249,17 @@ def my_map
 # p [1,2,3].my_map(&proc{|x|x%2})
 # p [1,2,3].map(&proc{|x|x%2})
 
-# conditions for my_inject
-# Sum some numbers
+## conditions for my_inject
+## Sum some numbers
 # p (5..10).my_inject(:*)                             #=> 45
-# Same using a block and inject
+## Same using a block and inject
 # p (5..10).my_inject { |sum, n| sum *  n }            #=> 45
-# Multiply some numbers
+## Multiply some numbers
 # p (5..10).my_inject(1, :+)                          #=> 151200
-# Same using a block
+## Same using a block
 # p (5..10).my_inject(2) { |product, n| product * n } #=> 151200
-# find the longest word
+## find the longest word
 # longest = %w{ cat sheep bear biggest}.my_inject do |memo, word|
-  #  memo.length > word.length ? memo : word
+#  memo.length > word.length ? memo : word
 # end
 # p longest                                        #=> "sheep"
