@@ -64,7 +64,7 @@ module Enumerable
         true
     elsif !block_given? && input.nil?
         my_each do |item|
-          return false if item == [" "]
+          return false if item.empty?
         end
         true
     elsif !block_given? && !input.nil?
@@ -330,7 +330,8 @@ module Enumerable
 #p(1..3).my_none?(&proc{|num| num%2==0})
 #p[1,2,3,4,5].tap{|t| t.my_none?{|n| n%3}}
 # p [false, nil,false].my_none?                            #=>true
-# p [false, nil,[]].my_none?                               #=>false having problems here 
+p [false, nil,[]].my_none?                               #=>false having problems here 
+# p [false, nil,[]].none?
 # p [true,[]].my_none?(String)                             #=>true
 # p [true,[]].my_none?(Numeric)                            #=>true
 # p ['',[]].my_none?(String)                               #=>false
@@ -379,7 +380,7 @@ module Enumerable
 # p (5..10).my_inject(2) { |product, n| product * n } #=> 151200
 # find the longest word
 # longest = %w{ cat sheep bear biggest}.my_inject do |memo, word|
-#    memo.length > word.length ? memo : word
+  #  memo.length > word.length ? memo : word
 # end
 # p longest                                        #=> "sheep"  
 
@@ -389,5 +390,5 @@ module Enumerable
 # p (1..3).my_inject(4) { |prod, n| prod * n }                #=>24
 # p [1,2,3].my_inject(:+)                                     #=>6
 # p (1..9).my_inject(:+)                                      #=>45
-# p [1,2,3].my_inject(4, :*)                                  #=>24
+# p [1,2,3].my_inject(4, :+)                                  #=>24
 # p (1..3).my_inject(4, :*)                                   #=>24
