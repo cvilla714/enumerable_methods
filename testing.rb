@@ -246,7 +246,20 @@ module Enumerable
         true
       end
     end
-  end
+
+    def my_select
+      return to_enum(:my_select) unless block_given?
+      arr = to_a if self.class == Range
+      arr = self if self.class == Array 
+
+      array2 = []    
+      arr.my_each do |item|      
+      array2.push(item) if yield(item)    
+      end    
+      array2  
+    end
+
+end
   
   # rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
   
@@ -264,8 +277,11 @@ module Enumerable
 
 
 # conditions for my_select
-#p (1..3).my_select(&proc{|x| x>2})
-#p [1,2,3,4].my_select.class
+#p (1..3).my_select{|x| x>2}
+#p [1,2,3,4].my_select
+#p (1..10).my_select { |i|  i % 3 == 0 }   #=> [3, 6, 9]
+#p [1,2,3,4,5].my_select { |num|  num.even?  }   #=> [2, 4]
+#p [:foo, :bar].my_select { |x| x == :foo }   #=> [:foo]
 
 
 # Scenarios for "my_all?" method return true if ALL of the elements is true
