@@ -59,19 +59,9 @@ module Enumerable
         true
       elsif !block_given? && input.nil?
         my_each do |item|
-          return false if item == true
+          return false if item == true 
         end
         true
-    elsif !block_given? && input.nil?
-        my_each do |item|
-          return false if item == [" "]
-        end
-        true
-    elsif !block_given? && !input.nil?
-        my_each do |item|
-          return false if item == input || item.length == input
-        end
-        true    
       elsif block_given?
         my_each do |item|
           return false if item == true
@@ -194,7 +184,7 @@ module Enumerable
           true
 
         elsif arg == Integer
-            my_each { |item| return false if item.class.superclass != arg }
+            my_each { |item| return false if item.class != arg }
             true
         elsif !arg.nil?
             my_each { |item| return false if item != arg}
@@ -299,7 +289,7 @@ end
 # p [1,2,3,4,5].tap{|t| t.my_all?{|n| n>3}} #==================>[1,2,3,4,5]
 # p [true, [false]].my_all?              #=====================>true
 # p [true,[true],false].my_all?          #=====================>false
-# p [1,2,3].my_all?(Integer)             #=====================>true this is the one we don't get true
+# p [1,2,3].my_all?(Integer)             #=====================>true 
 # p [1,-2,3.4].my_all?(Numeric)          #=====================>true 
 # p ['word',1,2,3].my_all?(Integer)      #=====================>false 
 # p ['car', 'cat'].my_all?(/a/)          #=====================>true
@@ -334,7 +324,7 @@ end
 # p %w{ant bear cat}.my_none? { |word| word.length == 5 } #=> true
 # p %w{ant bear cat}.my_none? { |word| word.length >= 4 } #=> false
 # p %w{ant bear cat}.my_none?(/d/)                        #=> true
-# p [1, 3.14, 42].my_none?(Float)                         #=> false
+# p [1, 3.1, 42].my_none?(Float)                         #=> false
 # p [].my_none?                                           #=> true
 # p [nil].my_none?                                        #=> true
 # p [nil, false].my_none?                                 #=> true
@@ -346,7 +336,7 @@ end
 #p(1..3).my_none?(&proc{|num| num%2==0})
 #p[1,2,3,4,5].tap{|t| t.my_none?{|n| n%3}}
 # p [false, nil,false].my_none?                            #=>true
-# p [false, nil,[]].my_none?                               #=>false having problems here 
+# p [false, false, []].my_none?                               #=>false having problems here 
 # p [true,[]].my_none?(String)                             #=>true
 # p [true,[]].my_none?(Numeric)                            #=>true
 # p ['',[]].my_none?(String)                               #=>false
