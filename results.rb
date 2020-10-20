@@ -110,18 +110,18 @@ require_relative './testing.rb'
 # p [1,2,3,4,5].tap{|t| t.my_count{|n| n%3}}                  #=>[1,2,3,4,5]
 
 # condition for my map
- p (1..4).my_map{ |i| i*i }          #=> [1, 4, 9, 16]
+# p (1..4).my_map{ |i| i*i }          #=> [1, 4, 9, 16]
 
- p (1..4).my_map { "cat"  }          #=> ["cat", "cat", "cat", "cat"]
-
- p [1,2,3].my_map(&proc{|x|x%2})
-
-  numbers = proc{ |n| n*2}
- p [2,3,4,5].my_map
-
- p [2,3,4,5].my_map(numbers)
-
- p [2,3,4,5].my_map(numbers) {|x|x+2}
+# p (1..4).my_map { "cat"  }          #=> ["cat", "cat", "cat", "cat"]
+#
+# p [1,2,3].my_map(&proc{|x|x%2})
+#
+#  numbers = proc{ |n| n*2}
+# p [2,3,4,5].my_map
+#
+# p [2,3,4,5].my_map(numbers)
+#
+# p [2,3,4,5].my_map(numbers) {|x|x+2}
 
 # (Proc=b, {}=x)
 
@@ -159,13 +159,13 @@ require_relative './testing.rb'
 # p (1..3).my_inject                                          #=>return the enumerator
 
 # multiply_els
-# p [1,2,3].multiply_els(&proc{|total, num| total*num})          #=>6
-# p (1..3).multiply_els(&proc{|total, num| total*num})           #=>6
-# p (1..3).multiply_els(4) { |prod, n| prod * n }                #=>24
-# p [1,2,3].multiply_els(:*)                                     #=>6
-# p (1..9).multiply_els(:*)                                      #=>45
-# p [1,2,3].multiply_els(4, :*)                                  #=>24
-# p (1..3).multiply_els(4, :*)                                   #=>24
+ p [1,2,3].multiply_els(&proc{|total, num| total*num})          #=>6
+ p (1..3).multiply_els(&proc{|total, num| total*num})           #=>6
+ p (1..3).multiply_els(4) { |prod, n| prod * n }                #=>24
+ p [1,2,3].multiply_els(:*)                                     #=>6
+ p (1..9).multiply_els(:+)                                      #=>45
+ p [1,2,3].multiply_els(4, :*)                                  #=>24
+ p (1..3).multiply_els(4, :*)                                   #=>24
 
 # enum = { a: 1, b: 2, c: 3, d: 4, e: 5 }
 # my_each_output = ''

@@ -266,59 +266,22 @@ module Enumerable
     array2
   end
 
-  def multiply_els(args = nil, arg = nil)
+  def multiply_els(args2 = nil, arg2 = nil)
     arr = to_a if self.class == Range
     arr = self if self.class == Array
-    if !block_given? && !args.nil? && arg.nil? # no blocks and args
-      i = 1
-      x = 0
-      acum = arr[x]
-      while i < arr.length
-        acum = acum.send(args, arr[i])
-        i += 1
-      end
-      acum
-    elsif block_given? && args.nil? && args.nil?
-      if arr[0].class == String
-        counter = 0
-        longest = nil
-        while counter < arr.length
-          longest = yield(arr[counter], arr[counter + 1]) unless arr[counter + 1].nil?
-          counter += 1
-        end
-        longest
-      elsif arr[0].class == Integer
-        sum = 1
-        num = 0
-        total = arr[num]
-        while sum < arr.length
-          total = yield(total, arr[sum])
-          sum += 1
-          num += 1
-        end
-        total
-      end
-    elsif block_given? && !args.nil? && arg.nil? # blocks and args
-      sum = 1
-      num = 0
-      totals = arr[num]
-      while sum < arr.length
-        totals = yield(totals, arr[sum])
-        sum += 1
-        num += 1
-      end
-      yield(totals, args)
-    elsif !block_given? && !args.nil? && !arg.nil? # no blocks and args
-      i = 1
-      x = 0
-      acum = arr[x]
-      while i < arr.length
-        acum = acum.send(arg, arr[i])
-        i += 1
-      end
-      acum.send(arg, args)
+   if block_given? && args2.nil? && arg2.nil?
+    my_inject{|total,num| yield(total,num)}
+    elsif block_given? && !args2.nil? && arg2.nil? # blocks one argument
+      my_inject(args2){|total,num| yield(total,num) }
+    elsif !block_given? && !args2.nil? && arg2.nil? # no blocks and one  args
+      my_inject(args2)
+    elsif !block_given? && !args2.nil? && !arg2.nil? # no blocks two args
+      my_inject(args2,arg2)
+    elsif !block_given? && args2.nil? && arg2.nil? # no blocks and args
+      return to_enum(:multiply_els)
     end
   end
+
 end
 
 # rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
