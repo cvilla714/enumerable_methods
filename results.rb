@@ -160,11 +160,14 @@ require_relative './testing.rb'
 # multiply_els
 # p [1,2,3].multiply_els(&proc{|total, num| total*num})          #=>6
 # p (1..3).multiply_els(&proc{|total, num| total*num})           #=>6
+# p [1,2,3].multiply_els {|total, num| total*num}          #=>6
+# p (1..3).multiply_els {|total, num| total*num}           #=>6
 # p (1..3).multiply_els(4) { |prod, n| prod * n }                #=>24
-# p [1,2,3].multiply_els(:*)                                     #=>6
+# p [1,2,7].multiply_els(:*)                                     #=>6
 # p (1..9).multiply_els(:*)                                      #=>45
-# p [1,2,3].multiply_els(4, :*)                                  #=>24
+# p [1,2,7].multiply_els(4, :*)                                  #=>24
 # p (1..3).multiply_els(4, :*)                                   #=>24
+# p (1..3).multiply_els                                          #=>return the enumerator
 
 # enum = { a: 1, b: 2, c: 3, d: 4, e: 5 }
 # my_each_output = ''
