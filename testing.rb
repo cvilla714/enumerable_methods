@@ -265,18 +265,19 @@ module Enumerable
     array2
   end
 
-  def multiply_els(args2 = nil, arg2 = nil)
-    if block_given? && args2.nil? && arg2.nil?
-      my_inject { |total, num| yield(total, num) }
-    elsif block_given? && !args2.nil? && arg2.nil? # blocks one argument
-      my_inject(args2) { |total, num| yield(total, num) }
-    elsif !block_given? && !args2.nil? && arg2.nil? # no blocks and one  args
-      my_inject(args2)
-    elsif !block_given? && !args2.nil? && !arg2.nil? # no blocks two args
-      my_inject(args2, arg2)
-    elsif !block_given? && args2.nil? && arg2.nil? # no blocks and args
-      to_enum(:multiply_els)
-    end
+end
+
+def multiply_els(args2 = nil, arg2 = nil)
+  if block_given? && args2.nil? && arg2.nil?
+    my_inject { |total, num| yield(total, num) }
+  elsif block_given? && !args2.nil? && arg2.nil? # blocks one argument
+    my_inject(args2) { |total, num| yield(total, num) }
+  elsif !block_given? && !args2.nil? && arg2.nil? # no blocks and one  args
+    my_inject(args2)
+  elsif !block_given? && !args2.nil? && !arg2.nil? # no blocks two args
+    my_inject(args2, arg2)
+  elsif !block_given? && args2.nil? && arg2.nil? # no blocks and args
+    to_enum(:multiply_els)
   end
 end
 # rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
