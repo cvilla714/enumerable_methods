@@ -15,7 +15,7 @@ module Enumerable
       yield(arr[n])
       n += 1
     end
-    arr
+    self
   end
 
   def my_each_with_index
@@ -29,7 +29,7 @@ module Enumerable
       yield(arr[n], n)
       n += 1
     end
-    arr
+    self
   end
 
   def my_none?(input = nil)
@@ -103,18 +103,24 @@ module Enumerable
     end
   end
 
-  def my_map(args = nil)
-    return to_enum(:my_map) unless block_given?
-
+  def my_map(proc = nil)
     arr = to_a if self.class == Range
     arr = self if self.class == Array
-    if block_given? && !args.nil?
-      results = []
-      my_each { |x| results.push(args[x]) }
-      results
-    elsif block_given? && args.nil?
+    tot = []
+
+    if !block_given? && proc.nil? # no block / no args
+      to_enum(:my_map)
+
+    elsif !block_given? && !proc.nil? # no block / args
+      my_each { |x| tot.push(proc[x]) }
+      tot
+
+    elsif block_given? && !proc.nil? # blocks / args
+      my_each { |x| tot.push(proc[x]) }
+      tot
+
+    elsif block_given? && proc.nil? # block / no args
       counter = 0
-      tot = []
       while counter < arr.length
         runn = yield(arr[counter])
         tot.push(runn)
@@ -122,7 +128,7 @@ module Enumerable
       end
       tot
     end
-end
+  end
 
   def my_inject(args = nil, arg = nil)
     arr = to_a if self.class == Range
@@ -260,27 +266,17 @@ end
   end
 
   def multiply_els(args2 = nil, arg2 = nil)
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
-
-    
-   if block_given? && args2.nil? && arg2.nil?
-    my_inject{|pillow,tree| yield(pillow,tree)}
-
+    if block_given? && args2.nil? && arg2.nil?
+      my_inject { |total, num| yield(total, num) }
     elsif block_given? && !args2.nil? && arg2.nil? # blocks one argument
-      my_inject(args2){|blue,green| yield(blue,green) }
-
+      my_inject(args2) { |total, num| yield(total, num) }
     elsif !block_given? && !args2.nil? && arg2.nil? # no blocks and one  args
       my_inject(args2)
-
     elsif !block_given? && !args2.nil? && !arg2.nil? # no blocks two args
-      my_inject(args2,arg2)
+      my_inject(args2, arg2)
     elsif !block_given? && args2.nil? && arg2.nil? # no blocks and args
-      return to_enum(:multiply_els)# arr.my_inject
+      to_enum(:multiply_els)
     end
   end
 end
-
-
-
 # rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
