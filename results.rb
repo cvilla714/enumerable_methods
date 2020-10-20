@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative './testing.rb'
 
 # Scenarios for "my_any?" method return true if ANY of the elements is true
