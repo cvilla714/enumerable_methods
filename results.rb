@@ -94,7 +94,6 @@ require_relative './testing.rb'
 # words2 = %w[5 dog door rod blade]
 # p words2.my_none?(5)                                         #false
 
-
 # conditions for count
 # p ary = [3, 3, 3, 2, 4, 2]
 # p ary.my_count #=> 4
@@ -174,6 +173,6 @@ require_relative './testing.rb'
 # each_output = my_each_output.dup
 # my_each_output = ''
 # enum.my_each_with_index(&block)
-# # These two variables should be the same.
+# These two variables should be the same.
 # p my_each_output
 # p each_output
