@@ -264,7 +264,6 @@ module Enumerable
     end
     array2
   end
-
 end
 
 def multiply_els(args2 = nil, arg2 = nil)
