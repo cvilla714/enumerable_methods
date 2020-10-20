@@ -9,13 +9,13 @@ module Enumerable
 
     arr = to_a if self.class == Range
     arr = self if self.class == Array
-    arr = self if self.class == Hash
+    arr = to_a if self.class == Hash
     n = 0
     while n < arr.length
       yield(arr[n])
       n += 1
     end
-    self
+    arr
   end
 
   def my_each_with_index
@@ -23,13 +23,13 @@ module Enumerable
 
     arr = to_a if self.class == Range
     arr = self if self.class == Array
-    arr = self if self.class == Hash
+    arr = to_a if self.class == Hash
     n = 0
     while n < arr.length
       yield(arr[n], n)
       n += 1
     end
-    self
+    arr
   end
 
   def my_none?(input = nil)
