@@ -110,17 +110,18 @@ require_relative './testing.rb'
 # p [1,2,3,4,5].tap{|t| t.my_count{|n| n%3}}                  #=>[1,2,3,4,5]
 
 # condition for my map
-# p (1..4).my_map{ |i| i*i }      #=> [1, 4, 9, 16]
-# p (1..4).my_map { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
-# p [1,2,3].my_map(&proc{|x|x%2})
-# p [1,2,3].map(&proc{|x|x%2})
-#  numers = Proc.new { |n| n*2}
-#  numbers = proc{ |n| n*2}
-# p [2,3,4,5].each(&numbers)
-# p [2,3,4,5].my_map(&numbers)
-# p [1,2,3].map(&proc{|x|x%2})
-# p [2,3,4,5].my_map(numbers) {|x|x+2}
-# p [2,3,4,5].my_map(&proc{|x|x+2})
+ p (1..4).my_map{ |i| i*i }          #=> [1, 4, 9, 16]
+
+ p (1..4).my_map { "cat"  }          #=> ["cat", "cat", "cat", "cat"]
+
+ p [1,2,3].my_map(&proc{|x|x%2})
+
+  numbers = proc{ |n| n*2}
+ p [2,3,4,5].my_map
+
+ p [2,3,4,5].my_map(numbers)
+
+ p [2,3,4,5].my_map(numbers) {|x|x+2}
 
 # (Proc=b, {}=x)
 

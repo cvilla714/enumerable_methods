@@ -15,7 +15,7 @@ module Enumerable
       yield(arr[n])
       n += 1
     end
-    arr
+    self
   end
 
   def my_each_with_index
@@ -29,7 +29,7 @@ module Enumerable
       yield(arr[n], n)
       n += 1
     end
-    arr
+    self
   end
 
   def my_none?(input = nil)
@@ -103,19 +103,32 @@ module Enumerable
     end
   end
 
-  def my_map
-    return to_enum(:my_map) unless block_given?
-
+  def my_map(proc = nil)
+    
     arr = to_a if self.class == Range
     arr = self if self.class == Array
-    counter = 0
     tot = []
-    while counter < arr.length
-      runn = yield(arr[counter])
-      tot.push(runn)
-      counter += 1
+
+    if !block_given? && proc.nil? # no block / no args
+      return to_enum(:my_map)
+
+    elsif !block_given? && !proc.nil? # no block / args
+      my_each { |x| tot.push(proc[x]) }
+      tot
+
+    elsif block_given? && !proc.nil? # blocks / args
+      my_each { |x| tot.push(proc[x]) }
+      tot
+
+    elsif block_given? && proc.nil? # block / no args
+      counter = 0
+      while counter < arr.length
+        runn = yield(arr[counter])
+        tot.push(runn)
+        counter += 1
+      end
+      tot
     end
-    tot
   end
 
   def my_inject(args = nil, arg = nil)
