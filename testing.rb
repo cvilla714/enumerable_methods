@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # rubocop:disable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
 
 # module Enumerable
@@ -50,7 +48,7 @@ module Enumerable
       end
       true
     elsif !block_given? && input.class == Regexp
-      my_each  do |item|
+      my_each do |item|
         char = item.split('')
         char.my_each do |n|
           return false if n.match?(input)
@@ -222,7 +220,7 @@ module Enumerable
 
     elsif !block_given? && !arg.nil?
       if arg.class == Regexp
-        my_each  do |item|
+        my_each do |item|
           char = item.split('')
           char.my_each do |n|
             return true if n.match?(arg)
@@ -230,7 +228,7 @@ module Enumerable
         end
         false
       elsif arg.class == String
-        my_each  do |item|
+        my_each do |item|
           char = item.split(' ')
           char.my_each do |n|
             return true if n.match?(arg)
@@ -322,18 +320,17 @@ def multiply_els(args = nil, arg = nil)
   end
 end
 
-
 # def multiply_els(args2 = nil, arg2 = nil)
-  # if block_given? && args2.nil? && arg2.nil?
-    # my_inject { |total, num| yield(total, num) }
-  # elsif block_given? && !args2.nil? && arg2.nil? # blocks one argument
-    # my_inject(args2) { |total, num| yield(total, num) }
-  # elsif !block_given? && !args2.nil? && arg2.nil? # no blocks and one  args
-    # my_inject(args2)
-  # elsif !block_given? && !args2.nil? && !arg2.nil? # no blocks two args
-    # my_inject(args2, arg2)
-  # elsif !block_given? && args2.nil? && arg2.nil? # no blocks and args
-    # to_enum(:multiply_els)
-  # end
+# if block_given? && args2.nil? && arg2.nil?
+# my_inject { |total, num| yield(total, num) }
+# elsif block_given? && !args2.nil? && arg2.nil? # blocks one argument
+# my_inject(args2) { |total, num| yield(total, num) }
+# elsif !block_given? && !args2.nil? && arg2.nil? # no blocks and one  args
+# my_inject(args2)
+# elsif !block_given? && !args2.nil? && !arg2.nil? # no blocks two args
+# my_inject(args2, arg2)
+# elsif !block_given? && args2.nil? && arg2.nil? # no blocks and args
+# to_enum(:multiply_els)
+# end
 # end
 # rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
