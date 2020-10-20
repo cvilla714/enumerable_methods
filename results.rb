@@ -166,3 +166,14 @@ require_relative './testing.rb'
 # p (1..9).multiply_els(:*)                                      #=>45
 # p [1,2,3].multiply_els(4, :*)                                  #=>24
 # p (1..3).multiply_els(4, :*)                                   #=>24
+
+# enum = { a: 1, b: 2, c: 3, d: 4, e: 5 }
+# my_each_output = ''
+# block = proc { |num| my_each_output += num.to_s }
+# enum.each(&block)
+# each_output = my_each_output.dup
+# my_each_output = ''
+# enum.my_each_with_index(&block)
+# # These two variables should be the same.
+# p my_each_output
+# p each_output
