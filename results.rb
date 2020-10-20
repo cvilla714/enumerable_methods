@@ -88,7 +88,12 @@ require_relative './testing.rb'
 # p ['dog','cat'].my_none?(/x/)                            #=>true
 # p ['dog', 'cat'].my_none?(/d/)                           #=>false
 # p ['dog','car'].my_none?(5)                              #=>true
-# p [5,'dog','car'].my_none?(5)                            #=>false
+# p [5, 'dog', 'car'].my_none?(5)                            #=>false
+# words = %w[dog door rod blade]
+# p words.my_none?(5)                                         #true
+# words2 = %w[5 dog door rod blade]
+# p words2.my_none?(5)                                         #false
+
 
 # conditions for count
 # p ary = [3, 3, 3, 2, 4, 2]
@@ -151,7 +156,7 @@ require_relative './testing.rb'
 # p (1..9).my_inject(:+)                                      #=>45
 # p [1,2,3].my_inject(4, :+)                                  #=>24
 # p (1..3).my_inject(4, :*)                                   #=>24
-# p (1..3).my_inject                                          #=>return the enumerator
+p (1..3).my_inject                                          #=>return the enumerator
 
 # multiply_els
 # p [1,2,3].multiply_els(&proc{|total, num| total*num})          #=>6

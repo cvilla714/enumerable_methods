@@ -34,7 +34,7 @@ module Enumerable
 
   def my_none?(input = nil)
     return true if !block_given? && empty?
-
+  
     if !block_given? && input == Float
       my_each do |item|
         return false if item.class == input
@@ -62,6 +62,11 @@ module Enumerable
         return false if item == true
       end
       true
+    elsif !block_given? && !input.nil?
+      my_each do |item|
+        return false if item.to_s == input.to_s
+      end
+      true
     elsif block_given?
       my_each do |item|
         return false if item == true
@@ -70,6 +75,7 @@ module Enumerable
       true
     end
   end
+  
 
   def my_count(*args)
     arr = to_a if self.class == Range
@@ -98,31 +104,22 @@ module Enumerable
     end
   end
 
-  def my_map(args = nil)
+  def my_map
     return to_enum(:my_map) unless block_given?
 
     arr = to_a if self.class == Range
     arr = self if self.class == Array
-
-    if block_given? && !args.nil?
-      results = []
-      my_each { |x| results.push(args[x]) }
-      results
-    elsif block_given? && args.nil?
-      counter = 0
-      tot = []
-      while counter < arr.length
-        runn = yield(arr[counter])
-        tot.push(runn)
-        counter += 1
-      end
-      tot
+    counter = 0
+    tot = []
+    while counter < arr.length
+      runn = yield(arr[counter])
+      tot.push(runn)
+      counter += 1
     end
+    tot
   end
 
   def my_inject(args = nil, arg = nil)
-    return to_enum(:my_inject) if !block_given? && args.nil? && arg.nil?
-
     arr = to_a if self.class == Range
     arr = self if self.class == Array
     if !block_given? && !args.nil? && arg.nil? # no blocks and args
@@ -173,7 +170,9 @@ module Enumerable
         i += 1
       end
       acum.send(arg, args)
-    end
+      elsif !block_given? && args.nil? && args.nil? #no blocck and no args
+        yield
+      end
   end
 
   def my_all?(arg = nil)
@@ -254,60 +253,7 @@ module Enumerable
     end
     array2
   end
-
-  def multiply_els(args = nil, arg = nil)
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
-    if !block_given? && !args.nil? && arg.nil? # no blocks and args
-      i = 1
-      x = 0
-      acum = arr[x]
-      while i < arr.length
-        acum = acum.send(args, arr[i])
-        i += 1
-      end
-      acum
-    elsif block_given? && args.nil? && args.nil?
-      if arr[0].class == String
-        counter = 0
-        longest = nil
-        while counter < arr.length
-          longest = yield(arr[counter], arr[counter + 1]) unless arr[counter + 1].nil?
-          counter += 1
-        end
-        longest
-      elsif arr[0].class == Integer
-        sum = 1
-        num = 0
-        total = arr[num]
-        while sum < arr.length
-          total = yield(total, arr[sum])
-          sum += 1
-          num += 1
-        end
-        total
-      end
-    elsif block_given? && !args.nil? && arg.nil? # blocks and args
-      sum = 1
-      num = 0
-      totals = arr[num]
-      while sum < arr.length
-        totals = yield(totals, arr[sum])
-        sum += 1
-        num += 1
-      end
-      yield(totals, args)
-    elsif !block_given? && !args.nil? && !arg.nil? # no blocks and args
-      i = 1
-      x = 0
-      acum = arr[x]
-      while i < arr.length
-        acum = acum.send(arg, arr[i])
-        i += 1
-      end
-      acum.send(arg, args)
-    end
-  end
 end
 
 # rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
+
