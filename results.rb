@@ -152,8 +152,10 @@ require_relative './testing.rb'
 # p (1..3).my_inject                                          #=>return the enumerator
 
 # multiply_els
-# p [1, 2, 3,4,5].multiply_els(&proc { |total, num| total * num }) #=>6
-# p (1..5).multiply_els(&proc { |total, num| total * num }) #=>6
+# p [1, 2, 3,4,5].multiply_els{ |total, num| total * num } #=>120
+# p [1, 2, 3,4,5].multiply_els(&proc { |total, num| total * num }) #=>120
+# p (1..5).multiply_els(&proc { |total, num| total * num }) #=>120
+# p [2,2,3,2].multiply_els{ |total,num| total * num} #=>24
 # p(1..3).multiply_els(4) { |prod, n| prod * n } #=>24
 # p [1, 2, 3].multiply_els(:*) #=>6
 # p (1..9).multiply_els(:+) #=>45

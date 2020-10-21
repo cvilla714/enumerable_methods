@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
-public
+# public
 # module Enumerable
 module Enumerable
   def my_each
@@ -264,7 +264,8 @@ module Enumerable
   end
 end
 
-def multiply_els(args2 = nil, arg2 = nil)
-  my_inject { |total, num| yield(total, num) } if block_given? && args2.nil? && arg2.nil?
+def multiply_els(arr)
+  arr.my_inject { |total, num| total * num }
 end
+
 # rubocop:enable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
