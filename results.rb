@@ -28,16 +28,10 @@ require_relative './testing.rb'
 # p (1..3).each_with_index(&proc { |x| p x > 2 }) #=============>[1,2,3]
 
 # conditions for my_select
-<<<<<<< HEAD
-p (1..3).my_select{|x| x>2}
-p (1..3).select{|x| x>2}
+# p (1..3).my_select { |x| x > 2 }
+# p (1..3).select { |x| x > 2 }
 # p [1, 2, 3, 4].my_select
 # p [1, 2, 3, 4].select
-=======
-# p (1..3).my_select{|x| x>2}
-#p [1,2,3,4].my_select
-#p [1,2,3,4].select
->>>>>>> 3d43b191941a8cd49da4963c8082065a99aa7142
 # p (1..10).my_select { |i|  i % 3 == 0 }   #=> [3, 6, 9]
 # p [1,2,3,4,5].my_select { |num|  num.even?  }   #=> [2, 4]
 # p [:foo, :bar].my_select { |x| x == :foo }   #=> [:foo]
@@ -138,15 +132,17 @@ p (1..3).select{|x| x>2}
 # numbers = proc { |n| n * 2 }
 # p [2, 3, 4, 5].my_map
 # p [2, 3, 4, 5].my_map(numbers)
+# p [2, 3, 4, 5].map(numbers)
 # p [2, 3, 4, 5].my_map(numbers) { |x| x + 2 }
-
+# p [2, 3, 4, 5].map(numbers) { |x| x + 2 }
 # (Proc=b, {}=x)
 
 #   2nd part of my_map
 # p [1,2,3].my_map{|x| x==2}                                  #=>[1] just here there is doubt
 # p [1,2,3].my_map(&proc{|x|x*2})                             #=>[2,4,6]
 # p (1..3).my_map(&proc{|num| num+1})                         #=>[2.3.4]
-# p [1,2,3].my_map(&proc{|x|x%2})                             #[1,0,1]
+# p [1, 2, 3].my_map(&proc { |x| x % 2 }) # [1,0,1]
+# p [1, 2, 3].map(&proc { |x| x % 2 }) # [1,0,1]
 
 # conditions for my_inject
 # Sum some numbers
