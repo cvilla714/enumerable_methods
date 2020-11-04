@@ -14,12 +14,12 @@ the results.
 -Google chrome, safari, mozila firefox.
 
 ## Run on the MAchine
--First download the file from the github
--then clone to the local machine 
--select the preferable code editor
+- First download the file from the github
+- then clone to the local machine 
+- select the preferable code editor
 - open the terminal or commandline
--you should 'install gem rspec '
--then 'run rspec'
+- you should 'install gem rspec '
+- then 'run rspec'
 
 
 
