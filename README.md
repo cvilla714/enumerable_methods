@@ -11,6 +11,18 @@ the results.
 ## Prerequisites
 
 - Ruby
+-Google chrome, safari, mozila firefox.
+
+## Run on the MAchine
+-First download the file from the github
+-then clone to the local machine 
+-select the preferable code editor
+- open the terminal or commandline
+-you should 'install gem rspec '
+-then 'run rspec'
+
+
+
 
 ## Authors
 
@@ -27,9 +39,9 @@ the results.
 - Linkedin: [linkedin Profile](https://www.linkedin.com/in/alan-soto-valle-b9a0511aa/)
 
 👤 **Mir Rawshawn Ali**
--GitHub: @sumon0002009
--Twitter: @sumon0002009
--LinkedIn: Mir Rawshan Ali
+-GitHub:[@sumon0002009] (https://github.com/sumon0002001)
+-Twitter: [@sumon0002009] (https://twitter.com/Sumon0002009)
+-LinkedIn: [Mir Rawshan Ali] (https://www.linkedin.com/in/faru-stefen-803364172/)
 
 
 ## Show your support
