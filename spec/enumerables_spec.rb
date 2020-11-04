@@ -13,11 +13,11 @@ RSpec.describe 'testing my_each' do
   include_context 'mainvariables'
 
   it 'compare the my_each to ech when a block is given' do
-    expect([1, 2, 3, 4, 5].my_each(&proc { |n|  n.even? })).to eq([1, 2, 3, 4, 5].each(&proc { |n|  n.even? }))
+    expect([1, 2, 3, 4, 5].my_each(&proc { |n| n.even? })).to eq([1, 2, 3, 4, 5].each(&proc { |n| n.even? }))
   end
 
   it 'will compare when the number is greater than the condition' do
-    expect([1, 2, 3].my_each { |x|  x > 2 }).to eq([1, 2, 3].each { |x|  x > 2 })
+    expect([1, 2, 3].my_each { |x| x > 2 }).to eq([1, 2, 3].each { |x| p x > 2 })
   end
 
   it 'will give back the enumerator if no block is given ' do
@@ -35,11 +35,11 @@ RSpec.describe 'testinng my_each_index' do
   end
 
   it 'will check when a block is given and meeting condition' do
-    expect([1, 2, 3, 4, 5].my_each_with_index(&proc { |n|  n % 2 })).to eq([1, 2, 3, 4, 5].each_with_index(&proc { |n|  n % 2 }))
+    expect([1, 2, 3, 4, 5].my_each_with_index(&proc { |n| n % 2 })).to eq([1, 2, 3, 4, 5].each_with_index(&proc { |n| n % 2 }))
   end
 
   it 'will evaluate when a range is given' do
-    expect((1..3).my_each_with_index(&proc { |x|  x > 2 })).to eq((1..3).each_with_index(&proc { |x|  x > 2 }))
+    expect((1..3).my_each_with_index(&proc { |x| x > 2 })).to eq((1..3).each_with_index(&proc { |x| x > 2 }))
   end
 end
 RSpec.describe 'testinng my_select' do

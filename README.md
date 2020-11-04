@@ -39,9 +39,9 @@ the results.
 - Linkedin: [linkedin Profile](https://www.linkedin.com/in/alan-soto-valle-b9a0511aa/)
 
 👤 **Mir Rawshawn Ali**
--GitHub:[@sumon0002009] (https://github.com/sumon0002001)
--Twitter: [@sumon0002009] (https://twitter.com/Sumon0002009)
--LinkedIn: [Mir Rawshan Ali] (https://www.linkedin.com/in/faru-stefen-803364172/)
+-GitHub:[@sumon0002001](https://github.com/sumon0002001)
+-Twitter:[@sSumon0002009](https://twitter.com/Sumon0002009)
+-LinkedIn:[linkedin Profile](https://www.linkedin.com/in/faru-stefen-803364172/)
 
 
 ## Show your support
