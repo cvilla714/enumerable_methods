@@ -6,6 +6,9 @@ RSpec.shared_context 'mainvariables' do
   arr = to_a if self.class == Hash
   let(:words) { %w[dog door rod blade] }
   let(:sentence) { %w[5 dog door rod blade] }
+  let(:ary) {[3, 3, 3, 2, 4, 2]}
+  let(:str) { %w(luigui mario boozer luffy zorro jinbei)}
+  
 end
 
 RSpec.describe 'testing my_each' do
@@ -136,4 +139,35 @@ RSpec.describe 'my_none method' do
       expect(sentence.my_none?(5)).not_to eq(sentence.none?(5))
     end
   end
+end
+RSpec.describe 'my_count method' do
+  include_context 'mainvariables'
+  context 'will check number of elements are same'do
+  it 'will check the number of elements in the arrays 'do
+  expect(ary.my_count).to eq(ary.count)
+end
+end
+it 'will check string of elements in the arrays'do
+expect(str.my_count).to eq(str.count)
+end
+it ' will check how many times arguments matches ' do
+  expect(ary.my_count(3)).to eq(ary.count(3))
+end
+it 'will check how many time the logic will display' do
+  expect(ary.my_count{ |x| x%2==0 }).to eq(ary.count{ |x| x%2==0 })
+end
+end
+RSpec.describe 'my_map method' do
+  include_context 'mainvariables'
+  context 'check the range of the arrays' do
+  it ' will check the range of the elements' do
+    expect((1..4).my_map { |i| i * i }).to eq((1..4).map { |i| i * i })
+  end
+end
+it ' will check when the block is not given' do
+expect((1..4).my_map { 'cat' }).to eq((1..4).map { 'cat' })
+end
+it ' will execute the proc when the proc is in the bloc' do
+  expect([1,2,3].my_map(&proc{|x|x%2})).to eq([1,2,3].my_map(&proc{|x|x%2}))
+end
 end
