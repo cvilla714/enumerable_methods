@@ -1,4 +1,4 @@
-require_relative './testing.rb'
+require_relative './testing'
 
 # Scenarios for "my_any?" method return true if ANY of the elements is true
 #   conditions for my_each

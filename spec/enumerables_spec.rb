@@ -1,14 +1,12 @@
-require_relative '../testing.rb'
+# rubocop:disable Layout/LineLength
+require_relative '../testing'
 
 RSpec.shared_context 'mainvariables' do
-  arr = to_a if self.class == Range
-  arr = self if self.class == Array
-  arr = to_a if self.class == Hash
   let(:words) { %w[dog door rod blade] }
   let(:sentence) { %w[5 dog door rod blade] }
-  let(:ary) {[3, 3, 3, 2, 4, 2]}
-  let(:str) { %w(luigui mario boozer luffy zorro jinbei)}
-  
+  let(:ary) { [3, 3, 3, 2, 4, 2] }
+  let(:str) { %w[luigui mario boozer luffy zorro jinbei] }
+  let(:longest) { %w[cat sheep bear biggest] }
 end
 
 RSpec.describe 'testing my_each' do
@@ -142,32 +140,65 @@ RSpec.describe 'my_none method' do
 end
 RSpec.describe 'my_count method' do
   include_context 'mainvariables'
-  context 'will check number of elements are same'do
-  it 'will check the number of elements in the arrays 'do
-  expect(ary.my_count).to eq(ary.count)
-end
-end
-it 'will check string of elements in the arrays'do
-expect(str.my_count).to eq(str.count)
-end
-it ' will check how many times arguments matches ' do
-  expect(ary.my_count(3)).to eq(ary.count(3))
-end
-it 'will check how many time the logic will display' do
-  expect(ary.my_count{ |x| x%2==0 }).to eq(ary.count{ |x| x%2==0 })
-end
+  context 'will check number of elements are same' do
+    it 'will check the number of elements in the arrays ' do
+      expect(ary.my_count).to eq(ary.count)
+    end
+  end
+  it 'will check string of elements in the arrays' do
+    expect(str.my_count).to eq(str.count)
+  end
+  it ' will check how many times arguments matches ' do
+    expect(ary.my_count(3)).to eq(ary.count(3))
+  end
+  it 'will check how many time the logic will display' do
+    expect(ary.my_count(&:even?)).to eq(ary.count(&:even?))
+  end
 end
 RSpec.describe 'my_map method' do
   include_context 'mainvariables'
   context 'check the range of the arrays' do
-  it ' will check the range of the elements' do
-    expect((1..4).my_map { |i| i * i }).to eq((1..4).map { |i| i * i })
+    it ' will check the range of the elements' do
+      expect((1..4).my_map { |i| i * 2 }).to eq((1..4).map { |i| i * 2 })
+    end
+  end
+  it ' will check when the block is not given' do
+    expect((1..4).my_map { 'cat' }).to eq((1..4).map { 'cat' })
+  end
+  it ' will execute the proc when the proc is in the bloc' do
+    expect([1, 2, 3].my_map(&proc { |x| x % 2 })).to eq([1, 2, 3].my_map(&proc { |x| x % 2 }))
   end
 end
-it ' will check when the block is not given' do
-expect((1..4).my_map { 'cat' }).to eq((1..4).map { 'cat' })
+
+RSpec.describe 'my_inject method' do
+  include_context 'mainvariables'
+
+  context 'will evalute the range with the given symbol' do
+    it 'performs the operation indicated by the given symbol' do
+      expect((5..10).my_inject(:+)).to eq((5..10).inject(:+))
+    end
+  end
+  it 'will execute the block' do
+    expect((5..10).my_inject { |sum, n| sum + n }).to eq((5..10).inject { |sum, n| sum + n })
+  end
+  it 'will perform the two operations using both arguments' do
+    expect((5..10).my_inject(2, :*)).to eq((5..10).inject(2, :*))
+  end
+  it 'will perform the opeartion based on the argument and the block' do
+    expect((5..10).my_inject(2) { |product, n| product * n }).to eq((5..10).inject(2) { |product, n| product * n })
+  end
+  it 'will return the longst word in a string array' do
+    expect(longest.my_inject { |memo, word| memo.length > word.length ? memo : word }).to eq(longest.inject { |memo, word| memo.length > word.length ? memo : word })
+  end
 end
-it ' will execute the proc when the proc is in the bloc' do
-  expect([1,2,3].my_map(&proc{|x|x%2})).to eq([1,2,3].my_map(&proc{|x|x%2}))
+
+RSpec.describe 'multiply_els method' do
+  include_context 'mainvariables'
+
+  context 'evaluate that the myinject method performs inside the multiply_els' do
+    it 'return the value of performing the operation' do
+      expect(multiply_els([2, 2, 3, 2])).to eq(24)
+    end
+  end
 end
-end
+# rubocop:enable Layout/LineLength

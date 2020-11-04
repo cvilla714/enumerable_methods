@@ -1,13 +1,14 @@
 # rubocop:disable Metrics/BlockNesting,Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/AbcSize
 public
+
 # module Enumerable
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
 
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
-    arr = to_a if self.class == Hash
+    arr = to_a if instance_of?(Range)
+    arr = self if instance_of?(Array)
+    arr = to_a if instance_of?(Hash)
     n = 0
     while n < arr.length
       yield(arr[n])
@@ -19,9 +20,9 @@ module Enumerable
   def my_each_with_index
     return to_enum(:my_each) unless block_given?
 
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
-    arr = to_a if self.class == Hash
+    arr = to_a if instance_of?(Range)
+    arr = self if instance_of?(Array)
+    arr = to_a if instance_of?(Hash)
     n = 0
     while n < arr.length
       yield(arr[n], n)
@@ -35,19 +36,19 @@ module Enumerable
 
     if !block_given? && input == Float
       my_each do |item|
-        return false if item.class == input
+        return false if item.instance_of?(input)
       end
     elsif !block_given? && input == String
       my_each do |item|
-        return false if item.class == input
+        return false if item.instance_of?(input)
       end
       true
     elsif !block_given? && input == Numeric
       my_each do |item|
-        return false if item.class == input
+        return false if item.instance_of?(input)
       end
       true
-    elsif !block_given? && input.class == Regexp
+    elsif !block_given? && input.instance_of?(Regexp)
       my_each do |item|
         char = item.split('')
         char.my_each do |n|
@@ -75,8 +76,8 @@ module Enumerable
   end
 
   def my_count(*args)
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
+    arr = to_a if instance_of?(Range)
+    arr = self if instance_of?(Array)
 
     if !block_given? && args[0].nil?
       counter = 0
@@ -102,8 +103,8 @@ module Enumerable
   end
 
   def my_map(proc = nil)
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
+    arr = to_a if instance_of?(Range)
+    arr = self if instance_of?(Array)
     tot = []
 
     if !block_given? && proc.nil? # no block / no args
@@ -129,8 +130,8 @@ module Enumerable
   end
 
   def my_inject(args = nil, arg = nil)
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
+    arr = to_a if instance_of?(Range)
+    arr = self if instance_of?(Array)
     if !block_given? && !args.nil? && arg.nil? # no blocks and args
       i = 1
       x = 0
@@ -141,7 +142,7 @@ module Enumerable
       end
       acum
     elsif block_given? && args.nil? && args.nil?
-      if arr[0].class == String
+      if arr[0].instance_of?(String)
         counter = 0
         longest = nil
         while counter < arr.length
@@ -149,7 +150,7 @@ module Enumerable
           counter += 1
         end
         longest
-      elsif arr[0].class == Integer
+      elsif arr[0].instance_of?(Integer)
         sum = 1
         num = 0
         total = arr[num]
@@ -190,7 +191,7 @@ module Enumerable
       true
 
     elsif !block_given? && !arg.nil?
-      if arg.class == Regexp
+      if arg.instance_of?(Regexp)
         my_each { |item| return false unless item.match?(arg) }
         true
 
@@ -219,7 +220,7 @@ module Enumerable
       false
 
     elsif !block_given? && !arg.nil?
-      if arg.class == Regexp
+      if arg.instance_of?(Regexp)
         my_each do |item|
           char = item.split('')
           char.my_each do |n|
@@ -227,7 +228,7 @@ module Enumerable
           end
         end
         false
-      elsif arg.class == String
+      elsif arg.instance_of?(String)
         my_each do |item|
           char = item.split(' ')
           char.my_each do |n|
@@ -236,7 +237,7 @@ module Enumerable
         end
         false
       elsif arg == Integer
-        my_each { |item| return true if item.class == arg }
+        my_each { |item| return true if item.instance_of?(arg) }
         false
       elsif arg == Numeric
         my_each { |item| return true if item.class != arg }
@@ -253,8 +254,8 @@ module Enumerable
   def my_select
     return to_enum(:my_select) unless block_given?
 
-    arr = to_a if self.class == Range
-    arr = self if self.class == Array
+    arr = to_a if instance_of?(Range)
+    arr = self if instance_of?(Array)
 
     array2 = []
     arr.my_each do |item|
